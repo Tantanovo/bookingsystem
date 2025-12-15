@@ -1,0 +1,13 @@
+{
+    "typescript.tsserver.experimental.enableProjectDiagnostics": false,
+    "C_Cpp.errorSquiggles": "Enabled",
+    "C_Cpp.default.cppStandard": "c++17",
+    "C_Cpp.default.compilerPath": "/usr/bin/g++",
+    "C_Cpp.intelliSenseEngine": "default",
+    "C_Cpp.autoAddFileAssociations": true,
+    "C_Cpp.autocomplete": "Default",
+    "C_Cpp.formatting": "Default",
+    "files.associations": {
+        "string": "cpp"
+    }
+}
