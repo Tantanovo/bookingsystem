@@ -1,0 +1,1 @@
+/usr/bin/c++ -rdynamic CMakeFiles/server.dir/listen.cpp.o CMakeFiles/server.dir/server.cpp.o CMakeFiles/server.dir/sermysql.cpp.o -o ../../../bin/server  -ljsoncpp -levent -lmysqlclient -lpthread 

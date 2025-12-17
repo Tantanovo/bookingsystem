@@ -56,6 +56,7 @@ private:
     string username;
     string usertel;
     bool running=true;
+    Json::Value vval;
     
 };
 

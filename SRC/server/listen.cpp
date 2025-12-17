@@ -25,11 +25,11 @@ bool ser_listen::init_server(){
     return true; 
 }
 
-void ser_listen::accpet_listen(int ser_sockfd, short events, void *arg){
+int ser_listen::accpet_listen(){
     int c=accept(ser_sockfd,NULL,NULL);
     if(c<0){
         perror("accept err\n");
-        return;
+        return -1;
     }
-    cout<<"accept client:"<<c<<endl;
+    return c;
 }
