@@ -8,6 +8,7 @@
     "C_Cpp.autocomplete": "Default",
     "C_Cpp.formatting": "Default",
     "files.associations": {
-        "string": "cpp"
+        "string": "cpp",
+        "new": "cpp"
     }
 }

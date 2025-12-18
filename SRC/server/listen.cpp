@@ -6,6 +6,14 @@ bool ser_listen::init_server(){
         perror("socket err");
         return false;
     }
+    
+    // 设置SO_REUSEADDR选项，允许端口重用
+    int opt = 1;
+    if (setsockopt(ser_sockfd, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt)) < 0) {
+        perror("setsockopt err");
+        return false;
+    }
+    
     struct sockaddr_in saddr;
     memset(&saddr,0,sizeof(saddr));
     saddr.sin_port=htons(ser_port);

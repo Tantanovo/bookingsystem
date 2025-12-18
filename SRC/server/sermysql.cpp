@@ -1,11 +1,14 @@
 #include"server.hpp"
 
-bool ser_mysql:: mysql_connectserver(){
-    MYSQL*mysql=mysql_init(&mysql_con);
-    if(mysql==nullptr)return false;
-    mysql_real_connect(mysql,db_ips.c_str(),db_username.c_str(),db_passwd.c_str(),db_dbname.c_str(),3306,NULL,0);
-    if(mysql==NULL){
-        cout<<"connect db server err"<<endl;
+bool ser_mysql::mysql_connectserver() {
+    mysql_init(&mysql_con);
+    if(mysql_real_connect(&mysql_con, 
+                         db_ips.c_str(), 
+                         db_username.c_str(), 
+                         db_passwd.c_str(), 
+                         db_dbname.c_str(), 
+                         3306, NULL, 0) == NULL) {
+        cout << "connect db server err: " << mysql_error(&mysql_con) << endl;
         return false;
     }
     return true;
@@ -53,15 +56,39 @@ bool ser_mysql::mysql_user_rollback(){
     ->     FOREIGN KEY (tel) REFERENCES user_info(tel)
     -> );
 */
-bool ser_mysql::mysql_register(const string &tel,const string &passwd,const string &name){
-    string sql=string("insert into  user_info values(0,'")+tel+string("','")+name+string("','")+passwd+string("',1)");
-    if(mysql_query(&mysql_con,sql.c_str())!=0)return false;
+bool ser_mysql::mysql_register(const string& tel, const string& passwd, const string& name) {
+    string sql = string("insert into user_info values(0,'") + tel + string("','" ) + name + string("','" ) + passwd + string("',1)");
+    cout << "生成的SQL: " << sql << endl;
+    
+    // 检查MySQL连接
+    if (mysql_ping(&mysql_con) != 0) {
+        cout << "MySQL连接已断开! 正在尝试重新连接..." << endl;
+        if (!mysql_connectserver()) {
+            cout << "重新连接失败!" << endl;
+            return false;
+        }
+    }
+    if (mysql_query(&mysql_con, sql.c_str()) != 0) {
+        cout << "mysql_register查询错误: " << mysql_error(&mysql_con) << endl;
+        return false;
+    }
     return true;
 };
 
-bool ser_mysql::mysql_login(const string&tel,const string &passwd,string &name){
-    string sql=string("select username,passwd from user_info where tel=")+tel;
-    if(mysql_query(&mysql_con,sql.c_str())!=0)return false;
+bool ser_mysql::mysql_login(const string& tel, const string& passwd, string& name) {
+    // 检查MySQL连接是否有效
+    if (mysql_ping(&mysql_con) != 0) {
+        cout << "MySQL连接已断开! 正在尝试重新连接..." << endl;
+        if (!mysql_connectserver()) {
+            cout << "重新连接失败!" << endl;
+            return false;
+        }
+    }
+    string sql = string("select username, passwd from user_info where tel='") + tel + string("'");
+    if (mysql_query(&mysql_con, sql.c_str()) != 0) {
+        cout << "mysql_login查询错误: " << mysql_error(&mysql_con) << endl;
+        return false;
+    }
     MYSQL_RES*r=mysql_store_result(&mysql_con);
     if(r==NULL)return false;
     int num=mysql_num_rows(r);//获取结果集有多少行，0行就是未查询到，意味着该用户没有注册
@@ -157,7 +184,6 @@ bool ser_mysql::mysql_subscribe_ticket(int tk_id,string tel){
         mysql_user_rollback();
         return false;
     }
- 
  
     mysql_user_commit();
     return true;

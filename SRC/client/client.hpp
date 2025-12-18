@@ -11,7 +11,7 @@
 #include<event2/event.h>
 #include<jsoncpp/json/json.h>
 using namespace std;
-
+const int offset=2;
 enum op_type{
             DL=1,//登录
             ZC,//注册
@@ -50,7 +50,7 @@ private:
     int cli_sockfd;
     int cli_port;
     string cli_ip;
-    bool flag=false;
+    bool flag;
     Json::Value val;
     int user_op;//选择
     string username;

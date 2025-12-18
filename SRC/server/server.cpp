@@ -13,7 +13,7 @@ void server_con::send_ok(){
 
 void server_con::user_register(){
     string username,usertel,userpasswd;
-    usertel=val["user_val"].asString();
+    usertel=val["user_tel"].asString();
     username=val["user_name"].asString();
     userpasswd=val["user_passwd"].asString();
     if(usertel.empty()||username.empty()||userpasswd.empty()){
@@ -35,7 +35,7 @@ void server_con::user_register(){
 }
 void server_con::user_login(){
     string usertel,userpasswd,username;
-    usertel=val["user_val"].asString();
+    usertel=val["user_tel"].asString();
     userpasswd=val["user_passwd"].asString();
     ser_mysql ser;
     if(!ser.mysql_connectserver()){
@@ -84,7 +84,7 @@ void server_con::user_subscribe_ticket(){
     return;
 };
 void server_con::user_cancel_sub_ticket(){
-    int tk_id=val["index"].asInt();
+    int tk_id=val["yd_id"].asInt();
     string tel=val["tel"].asString();
     Json::Value resval;
     ser_mysql ser;

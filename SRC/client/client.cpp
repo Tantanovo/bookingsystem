@@ -6,6 +6,7 @@ void connect_client::print_info(){
         cout<<"-------------------------------------------------"<<endl;
         cout<<"请输入选项编号："<<endl;
         cin>>user_op;
+        user_op+=offset;
     }
     else{
         cout<<"---未登陆-----游客-----"<<endl;
@@ -154,10 +155,13 @@ void connect_client::user_subscribe_ticket(){
     cout<<"请输入要预订的编号："<<endl;
     int index=0;
     cin>>index;
-    //index  有效性检查
+    if(index <= 0){
+        cout << "错误 编号必须大于0" << endl;
+        return;
+    }
     Json::Value val;
     val["type"]=YD;
-    val["user_tel"]=usertel;
+    val["tel"]=usertel;
     val["index"]=index;
     send(cli_sockfd,val.toStyledString().c_str(),strlen(val.toStyledString().c_str()),0);
     char buff[256]={0};
@@ -184,7 +188,7 @@ void connect_client::user_subscribe_ticket(){
 void connect_client::user_show_sub_ticket(){
     Json::Value val;
     val["type"]=CKYD;
-    val["user_tel"]=usertel;
+    val["tel"]=usertel;
     send(cli_sockfd,val.toStyledString().c_str(),strlen(val.toStyledString().c_str()),0);
     char buff[4096]={0};
     int n=recv(cli_sockfd,buff,4095,0);
@@ -192,21 +196,21 @@ void connect_client::user_show_sub_ticket(){
         cout<<"ser close"<<endl;
         return;
     }
- 
-    vval.clear();
+    
+    val.clear();
     Json::Reader Read;
-    if(!Read.parse(buff,vval)){
+    if(!Read.parse(buff,val)){
         cout<<"json解析失败"<<endl;
         return;
     }
  
-    string st=vval["status"].asString();
+    string st=val["status"].asString();
     if(st.compare("OK")!=0){
         cout<<"查询预约信息失败"<<endl;
         return;
     }
  
-    int num=vval["num"].asInt();
+    int num=val["num"].asInt();
     if(num==0){
         cout<<"没有预约信息"<<endl;
         return;
@@ -215,11 +219,11 @@ void connect_client::user_show_sub_ticket(){
     cout << "预约ID  项目编号  地点      可使用日期  预约时间" << endl;
     for (int i = 0; i < num; i++) {
         cout << "-------------------------------------------------------------------" << endl;
-        cout << "|" << vval["arr"][i]["yd_id"].asString() << "       ";    // 预约记录ID（sub_ticket.yd_id）
-        cout << vval["arr"][i]["tk_id"].asString() << "    ";         // 项目编号（ticket_info.tk_id）
-        cout << vval["arr"][i]["addr"].asString() << "    ";          // 预约地点（ticket_info.addr）
-        cout << vval["arr"][i]["use_date"].asString() << "    ";      // 可使用日期（ticket_info.use_date）
-        cout << vval["arr"][i]["curr_time"].asString() << "|" << endl;// 预约时间（sub_ticket.curr_time）
+        cout << "|" << val["arr"][i]["yd_id"].asString() << "       ";    // 预约记录ID（sub_ticket.yd_id）
+        cout << val["arr"][i]["tk_id"].asString() << "    ";         // 项目编号（ticket_info.tk_id）
+        cout << val["arr"][i]["addr"].asString() << "    ";          // 预约地点（ticket_info.addr）
+        cout << val["arr"][i]["use_date"].asString() << "    ";      // 可使用日期（ticket_info.use_date）
+        cout << val["arr"][i]["curr_time"].asString() << "|" << endl;// 预约时间（sub_ticket.curr_time）
         cout << "-------------------------------------------------------------------" << endl;
     }
     cout << endl;
@@ -228,7 +232,7 @@ void connect_client::user_cancel_sub_ticket(){
     user_show_sub_ticket();
     val["type"]=QXYD;
     val["user_name"]=username;
-    val["user_tel"]=usertel;
+    val["tel"]=usertel;
     int yd_id;
     cout<<"请输入一个要取消的预约id"<<endl;
     cin>>yd_id;
@@ -246,7 +250,7 @@ void connect_client::user_cancel_sub_ticket(){
         cout<<"json解析失败"<<endl;
         return;
     }
-    string st=vval["status"].asString();
+    string st=val["status"].asString();
     if(st.compare("OK")!=0){
         cout << "输入错误:该预约ID不存在或您无权取消" << endl;
     }
