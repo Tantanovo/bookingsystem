@@ -1,16 +1,17 @@
-
-# Consider dependencies only in project.
-set(CMAKE_DEPENDS_IN_PROJECT_ONLY OFF)
-
 # The set of languages for which implicit dependencies are needed:
 set(CMAKE_DEPENDS_LANGUAGES
+  "CXX"
   )
+# The set of files for implicit dependencies of each language:
+set(CMAKE_DEPENDS_CHECK_CXX
+  "/home/yzy/bookingsystem/SRC/server/listen.cpp" "/home/yzy/bookingsystem/build/SRC/server/CMakeFiles/server.dir/listen.cpp.o"
+  "/home/yzy/bookingsystem/SRC/server/sermysql.cpp" "/home/yzy/bookingsystem/build/SRC/server/CMakeFiles/server.dir/sermysql.cpp.o"
+  "/home/yzy/bookingsystem/SRC/server/server.cpp" "/home/yzy/bookingsystem/build/SRC/server/CMakeFiles/server.dir/server.cpp.o"
+  )
+set(CMAKE_CXX_COMPILER_ID "GNU")
 
-# The set of dependency files which are needed:
-set(CMAKE_DEPENDS_DEPENDENCY_FILES
-  "/home/yzy/bookingsystem/SRC/server/listen.cpp" "SRC/server/CMakeFiles/server.dir/listen.cpp.o" "gcc" "SRC/server/CMakeFiles/server.dir/listen.cpp.o.d"
-  "/home/yzy/bookingsystem/SRC/server/sermysql.cpp" "SRC/server/CMakeFiles/server.dir/sermysql.cpp.o" "gcc" "SRC/server/CMakeFiles/server.dir/sermysql.cpp.o.d"
-  "/home/yzy/bookingsystem/SRC/server/server.cpp" "SRC/server/CMakeFiles/server.dir/server.cpp.o" "gcc" "SRC/server/CMakeFiles/server.dir/server.cpp.o.d"
+# The include file search paths:
+set(CMAKE_CXX_TARGET_INCLUDE_PATH
   )
 
 # Targets to which this target links.

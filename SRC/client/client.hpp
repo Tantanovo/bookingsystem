@@ -24,6 +24,18 @@ enum op_type{
 
 //客户端连接部分
 class connect_client{
+private:
+    int cli_sockfd;
+    int cli_port;
+    string cli_ip;
+    bool flag;
+    Json::Value val;
+    int user_op;//选择
+    string username;
+    string usertel;
+    bool running=true;
+    Json::Value vval;
+    
 public:
     connect_client(){
         cli_sockfd=-1;
@@ -45,18 +57,6 @@ public:
     void user_cancel_sub_ticket();
     void user_show_sub_ticket();
     void run();
-
-private:
-    int cli_sockfd;
-    int cli_port;
-    string cli_ip;
-    bool flag;
-    Json::Value val;
-    int user_op;//选择
-    string username;
-    string usertel;
-    bool running=true;
-    Json::Value vval;
     
 };
 

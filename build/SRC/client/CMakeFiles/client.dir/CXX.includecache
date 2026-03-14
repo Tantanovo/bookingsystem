@@ -1,0 +1,38 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/yzy/bookingsystem/SRC/client/client.cpp
+client.hpp
+/home/yzy/bookingsystem/SRC/client/client.hpp
+
+/home/yzy/bookingsystem/SRC/client/client.hpp
+iostream
+-
+stdlib.h
+-
+string
+-
+unistd.h
+-
+sys/socket.h
+-
+netinet/in.h
+-
+arpa/inet.h
+-
+cstring
+-
+event2/event.h
+-
+jsoncpp/json/json.h
+-
+
+/home/yzy/bookingsystem/SRC/client/connect.cpp
+client.hpp
+/home/yzy/bookingsystem/SRC/client/client.hpp
+
