@@ -2,7 +2,7 @@
 void connect_client::print_info(){
      if(flag){
         cout<<"--已登陆-------用户名："<<username<<"-------"<<endl;
-        cout<<"1:查看预约   2:预订  3: 查看我的预约  4:取消预约  5:退出"<<endl;
+        cout<<"1:查看预约   2:预订  3: 查看我的预约  4:取消预约  5:退出登录"<<endl;
         cout<<"-------------------------------------------------"<<endl;
         cout<<"请输入选项编号："<<endl;
         cin>>user_op;
@@ -61,15 +61,16 @@ void connect_client::user_login(){
 
 }
 void connect_client::user_register(){
+    string tel,name;
     cout<<"输入手机号码"<<endl;
-    cin>>usertel;
+    cin>>tel;
     cout<<"输入用户名"<<endl;
-    cin>>username;string passwd,tmp;
+    cin>>name;string passwd,tmp;
     cout<<"输入密码"<<endl;
     cin>>passwd;
     cout<<"请再输入一次密码,确保一致:"<<endl;
     cin>>tmp;
-    if(usertel.empty()||username.empty()){
+    if(tel.empty()||name.empty()){
         cout<<"手机或用户名不能为空"<<endl;
         return;
     }
@@ -79,8 +80,8 @@ void connect_client::user_register(){
     }
     Json::Value val;
     val["type"]=ZC;
-    val["user_tel"]=usertel;
-    val["user_name"]=username;
+    val["user_tel"]=tel;
+    val["user_name"]=name;
     val["user_passwd"]=passwd;
     send(cli_sockfd,val.toStyledString().c_str(),strlen(val.toStyledString().c_str()),0);
     char buff[256]={0};
@@ -103,8 +104,10 @@ void connect_client::user_register(){
         return;
     }
 
-    flag=true;
-    cout<<"注册成功"<<endl;
+    flag=false;
+    username.clear();
+    usertel.clear();
+    cout<<"注册成功，请登录"<<endl;
     return;
 }
 void connect_client::user_show_ticket(){
@@ -280,7 +283,15 @@ void connect_client::run(){
                 user_show_sub_ticket();
                 break;
                 case TC://退出
-                running=false;
+                if(flag){
+                    flag=false;
+                    username.clear();
+                    usertel.clear();
+                    cout<<"已退出登录"<<endl;
+                }
+                else{
+                    running=false;
+                }
                 break;
             default:
             cout<<"输入无效"<<endl;

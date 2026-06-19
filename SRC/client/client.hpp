@@ -41,9 +41,13 @@ public:
         cli_sockfd=-1;
         cli_port=6000;
         cli_ip="127.0.0.1";
+        flag=false;
+        user_op=0;
     }
     connect_client(int port,string ip):cli_port(port),cli_ip(ip){
         cli_sockfd=-1;
+        flag=false;
+        user_op=0;
     };
     bool init_client();
     int getcli_sockfd(){
